@@ -1,0 +1,11 @@
+torch>=2.1
+transformers>=4.45
+accelerate>=0.34
+bitsandbytes>=0.43        # 4-bit loading for the local judge
+sentencepiece>=0.2
+google-genai>=0.3         # external large-LLM baseline (Gemini, default)
+anthropic>=0.40           # only needed if api_baseline.provider == "anthropic"
+requests>=2.31            # HackerNews / arXiv APIs
+PyYAML>=6.0
+tqdm>=4.66
+rouge-score>=0.1.2        # optional summary-quality metric

@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+# Keep the repo light: generated artifacts are reproducible via main.py
+data/*.json
+results/*
+!results/.gitkeep
+demo/*.mp4
+*.DS_Store
+# Course handout — keep out of the public repo
+CAS4133_final_project.pdf

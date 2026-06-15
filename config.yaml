@@ -1,0 +1,43 @@
+# ============================================================================
+# AI Newsroom — central configuration. Edit model IDs / paths here only.
+# ============================================================================
+
+# --- Models -----------------------------------------------------------------
+# Small LM that powers the 4 agents AND the single-SLM baseline (lower bound).
+slm_model: "meta-llama/Llama-3.2-3B-Instruct"
+
+# Local large model used as the LLM-as-judge (fits a 24GB 3090 in 4-bit).
+# Different family + larger than the generators -> mitigates self-preference bias.
+judge_model: "Qwen/Qwen2.5-14B-Instruct"
+judge_load_in_4bit: true
+
+# External API model = the large-LLM upper-bound baseline (ceiling).
+# Pick the provider, model, and key here. Leave api_key blank to read it from
+# the environment (GEMINI_API_KEY for gemini, ANTHROPIC_API_KEY for anthropic).
+# Set enabled: false to skip the ceiling entirely (no key needed).
+api_baseline:
+  enabled: true
+  provider: "gemini"            # "gemini" or "anthropic"
+  model: "gemini-2.5-flash"     # e.g. gemini-2.5-flash / gemini-2.5-pro / claude-opus-4-8
+  api_key: ""                   # paste a key here, or leave "" to use the env var
+
+# NLI model for reference-based faithfulness (entailment of generated sentences).
+nli_model: "cross-encoder/nli-deberta-v3-base"
+
+# --- Data -------------------------------------------------------------------
+items_per_newsletter: 5      # how many source articles each newsletter fuses
+num_newsletters: 15          # size of the frozen eval set (per domain)
+domains: ["tech", "research"]  # tech=HackerNews, research=arXiv (cs.AI/cs.CL)
+
+# --- Pipeline ---------------------------------------------------------------
+feedback_max_retries: 2      # Editor->Writer self-correction loop cap (K)
+editor_pass_threshold: 4     # min avg Editor score (1-5) to accept a draft
+
+# --- Generation -------------------------------------------------------------
+max_new_tokens_summary: 160
+max_new_tokens_article: 900
+gen_temperature: 0.7
+
+# --- Paths ------------------------------------------------------------------
+data_dir: "data"
+results_dir: "results"
