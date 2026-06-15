@@ -57,7 +57,8 @@ Leave `api_key: ""` to read it from the environment (`GEMINI_API_KEY` or
 python main.py collect     # → data/tech.json, data/research.json   (~1 min, no GPU)
 python main.py generate    # → results/generations.json            (SLM on GPU)
 python main.py evaluate    # → results/scores.csv + printed table   (judge on GPU)
-# or end-to-end:
+python plot.py             # → results/fig1..5.png (slide figures)   (no GPU)
+# or end-to-end (collect → generate → evaluate):
 python main.py all
 ```
 

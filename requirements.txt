@@ -9,3 +9,4 @@ requests>=2.31            # HackerNews / arXiv APIs
 PyYAML>=6.0
 tqdm>=4.66
 rouge-score>=0.1.2        # optional summary-quality metric
+matplotlib>=3.7           # slide figures (plot.py)
