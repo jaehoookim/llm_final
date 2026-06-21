@@ -49,7 +49,7 @@ def pause(s: float = 0.8):
 
 
 # --------------------------------------------------------------------------- #
-def live(cfg):
+def live(cfg, index: int = 0):
     import newsroom
 
     # Pick one collected newsletter as the running example.
@@ -60,8 +60,9 @@ def live(cfg):
             nls.extend(json.load(open(p, encoding="utf-8")))
     if not nls:
         sys.exit("No data. Run `python main.py collect` first.")
-    nl = nls[0]
+    nl = nls[index % len(nls)]
     items = nl["items"]
+    print(f"{D}(example #{index % len(nls)} of {len(nls)} — change with --index N){X}")
 
     print(f"\n{B}AI NEWSROOM — live walkthrough{X}  "
           f"{D}(domain: {nl['domain']}, {len(items)} source articles){X}")
@@ -119,12 +120,12 @@ def live(cfg):
 
     rule("OUR METHOD  ·  final newsletter (multi-agent + feedback)", GR)
     print(f"  {B}{verdict.get('title')}{X}\n")
-    reveal(draft[:900] + ("…" if len(draft) > 900 else ""))
+    reveal(draft)
 
     # Contrast: the single-SLM lower bound on the SAME input, one monolithic prompt.
     rule("CONTRAST  ·  single-SLM baseline, one prompt (lower bound)", RE)
     base = newsroom.baseline_single_slm(slm, items, cfg)
-    reveal(base["newsletter"][:500] + "…", color=D)
+    reveal(base["newsletter"], color=D)
     print(f"\n  {D}→ Same inputs. The multi-agent version decomposes the job and "
           f"self-corrects;\n    the single-SLM version does it all in one shot. "
           f"evaluate.py quantifies the gap.{X}")
@@ -202,6 +203,8 @@ def main():
     ap.add_argument("--export", action="store_true",
                     help="write results/comparison.md (model-by-model overview)")
     ap.add_argument("--slow", action="store_true", help="reveal text slowly (for video)")
+    ap.add_argument("--index", type=int, default=0,
+                    help="which collected newsletter to run in LIVE mode")
     args = ap.parse_args()
     SLOW = args.slow
 
@@ -211,7 +214,7 @@ def main():
     elif args.results:
         results(cfg)
     else:
-        live(cfg)
+        live(cfg, args.index)
     print(f"\n{GR}{B}done.{X}\n")
 
 
