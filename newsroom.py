@@ -10,6 +10,7 @@ Systems produced here (compared in evaluate.py):
 Scout (collection) lives in collect.py; here a "newsletter" already has its
 frozen `items`, so the pipeline starts at Reader.
 """
+import re
 import time
 
 from utils import extract_json
@@ -222,11 +223,25 @@ def _format_articles(items: list[dict]) -> str:
 # --------------------------------------------------------------------------- #
 
 
+# Llama often opens with a conversational preamble ("Here is a 3-sentence
+# summary of the article:") before the actual summary. Strip a single leading
+# such line so it never leaks into the Writer's input or the demo output.
+_PREAMBLE_RE = re.compile(
+    r"^\s*(?:(?:sure[,!.]?\s*)?here (?:is|are)\b[^\n:]{0,80}:|summary:)\s*",
+    re.IGNORECASE,
+)
+
+
+def _clean_summary(text: str) -> str:
+    return _PREAMBLE_RE.sub("", text.strip(), count=1).strip()
+
+
 def reader_summarize(llm: LocalLM, items: list[dict], max_new_tokens: int) -> list[str]:
     """Reader: one faithful 3-line summary per item, generated as a single batch
     (this batched call is the measured 'parallel processing' speedup)."""
     prompts = [READER_PROMPT.format(title=it["title"], text=it["text"]) for it in items]
-    return llm.generate(prompts, max_new_tokens=max_new_tokens, system=READER_SYS)
+    raw = llm.generate(prompts, max_new_tokens=max_new_tokens, system=READER_SYS)
+    return [_clean_summary(s) for s in raw]
 
 
 def writer_draft(llm: LocalLM, summaries: list[str], max_new_tokens: int) -> str:
