@@ -14,7 +14,6 @@ Figures:
 Only matplotlib is required; missing inputs are skipped with a warning.
 """
 import csv
-import json
 import os
 
 import matplotlib
@@ -126,44 +125,39 @@ def fig_faithfulness(rows, results_dir):
     _save(fig, results_dir, "fig4_faithfulness.png")
 
 
-def fig_feedback(results_dir: str):
-    """Feedback-loop effect: Editor score before (multi_agent) vs after
-    (multi_agent_fb) the loop, plus the distribution of revision counts."""
-    path = os.path.join(results_dir, "generations.json")
-    if not os.path.exists(path):
-        print("[plot] generations.json missing — skipping fig5")
-        return
-    with open(path, encoding="utf-8") as f:
-        recs = json.load(f)
-    before, after, iters = [], [], []
-    for r in recs:
-        if "multi_agent" in r and "editor_avg" in r["multi_agent"]:
-            before.append(r["multi_agent"]["editor_avg"])
-        if "multi_agent_fb" in r:
-            after.append(r["multi_agent_fb"].get("editor_avg"))
-            iters.append(r["multi_agent_fb"].get("iterations", 0))
-    if not before or not after:
-        print("[plot] no feedback data — skipping fig5")
+def fig_feedback(rows, results_dir: str):
+    """The self-correction loop's real effect: adding it to multi_agent lowers
+    *independent* faithfulness and multiplies latency — i.e. it hurts. (The
+    Editor's own score stays ~flat, so the 3B reviser can't see its regression;
+    that point lives in the slide text, not here.)"""
+    by = {r["system"]: r for r in rows}
+    ma, fb = by.get("multi_agent"), by.get("multi_agent_fb")
+    if not ma or not fb:
+        print("[plot] need multi_agent + multi_agent_fb — skipping fig5")
         return
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4.2))
-    mb = sum(before) / len(before)
-    ma = sum(v for v in after if v is not None) / max(len([v for v in after if v is not None]), 1)
-    ax1.bar(["Before loop\n(no feedback)", "After loop\n(feedback)"], [mb, ma],
-            color=["#bbb", "#4c72b0"])
-    ax1.set_ylim(0, 5)
-    ax1.set_ylabel("Mean Editor score (1–5)")
-    ax1.set_title("Self-correction loop raises Editor score")
-    for i, v in enumerate([mb, ma]):
-        ax1.text(i, v + 0.08, f"{v:.2f}", ha="center", fontsize=9)
+    labels = ["Multi-agent\n(no loop)", "+ feedback\n(loop)"]
+    faith = [_num(ma["faithful_pct"]), _num(fb["faithful_pct"])]
+    lat = [_num(ma["latency_s"]), _num(fb["latency_s"])]
+    colors = ["#4c72b0", "#c44e52"]  # after = red → regression
 
-    maxk = max(iters) if iters else 0
-    bins = range(0, maxk + 2)
-    ax2.hist(iters, bins=bins, align="left", rwidth=0.8, color="#4c72b0")
-    ax2.set_xlabel("Revision iterations per newsletter")
-    ax2.set_ylabel("Count")
-    ax2.set_xticks(range(0, maxk + 1))
-    ax2.set_title("How often the loop fired")
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(9.5, 4.2))
+    ax1.bar(labels, faith, color=colors)
+    ax1.set_ylim(0, 100)
+    ax1.set_ylabel("Faithful sentences (%)  — higher is better")
+    ax1.set_title("Loop lowers faithfulness")
+    for i, v in enumerate(faith):
+        ax1.text(i, v + 1.8, f"{v:.1f}%", ha="center", fontsize=9)
+
+    ax2.bar(labels, lat, color=colors)
+    ax2.set_ylim(0, max(lat) * 1.25)
+    ax2.set_ylabel("End-to-end latency (s)  — lower is better")
+    mult = lat[1] / lat[0] if lat[0] else 0
+    ax2.set_title(f"…at {mult:.1f}× the latency")
+    for i, v in enumerate(lat):
+        ax2.text(i, v + max(lat) * 0.02, f"{v:.1f}s", ha="center", fontsize=9)
+
+    fig.suptitle("Adding self-correction to the 3B pipeline hurts", fontsize=12)
     _save(fig, results_dir, "fig5_feedback.png")
 
 
@@ -177,9 +171,9 @@ def main():
         fig_quality_cost(rows, rd)
         fig_winrate(rows, rd)
         fig_faithfulness(rows, rd)
+        fig_feedback(rows, rd)
     else:
         print("[plot] results/scores.csv missing — run `python main.py evaluate` first")
-    fig_feedback(rd)
 
 
 if __name__ == "__main__":

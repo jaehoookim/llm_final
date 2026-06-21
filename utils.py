@@ -5,6 +5,16 @@ import re
 
 import yaml
 
+# Load secrets from a local .env (gitignored) into the environment, so HF_TOKEN /
+# GEMINI_API_KEY / ANTHROPIC_API_KEY are available before any model is loaded.
+# Every entry point imports utils, so this runs first. No-op if .env is absent.
+try:
+    from dotenv import load_dotenv
+
+    load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
+except ImportError:
+    pass
+
 _CONFIG_PATH = os.path.join(os.path.dirname(__file__), "config.yaml")
 
 

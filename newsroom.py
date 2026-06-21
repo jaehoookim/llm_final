@@ -74,21 +74,65 @@ class LocalLM:
 class GeminiLM:
     """External large-LLM baseline via the Google Gemini API (default ceiling)."""
 
+    _MIN_INTERVAL = 13.0  # free tier allows ~5 req/min -> space calls ~13s apart
+
     def __init__(self, model_id: str, api_key: str = ""):
         import os
         from google import genai
         self.model = model_id
-        self.client = genai.Client(api_key=api_key or os.environ.get("GEMINI_API_KEY"))
+        # The free tier caps requests *per project*, so collect every key the user
+        # provided (GEMINI_API_KEY, GEMINI_API_KEY_2, _3, ... from separate
+        # projects) and rotate across them when one hits its quota.
+        keys = [api_key] if api_key else []
+        for name in ("GEMINI_API_KEY", "GEMINI_API_KEY_2", "GEMINI_API_KEY_3",
+                     "GEMINI_API_KEY_4", "GEMINI_API_KEY_5"):
+            v = os.environ.get(name)
+            if v and v not in keys:
+                keys.append(v)
+        if not keys:
+            raise RuntimeError("No Gemini API key (set GEMINI_API_KEY in .env)")
+        self._clients = [genai.Client(api_key=k) for k in keys]
+        self._idx = 0
+        self._dead: set[int] = set()  # keys whose daily quota is used up
+        self._last = 0.0
 
     def generate(self, prompt: str, max_tokens: int = 1024, system: str = "") -> str:
+        import time
+
         from google.genai import types
+        # Gemini 2.5/3.x models "think" by default, and thinking tokens are billed
+        # against max_output_tokens -> the visible newsletter gets truncated to a
+        # few sentences. We want one-shot generation, not reasoning, so disable
+        # thinking and give the whole budget to the answer (keeps the ceiling fair).
         cfg = types.GenerateContentConfig(
             max_output_tokens=max_tokens,
             system_instruction=system or None,
+            thinking_config=types.ThinkingConfig(thinking_budget=0),
         )
-        resp = self.client.models.generate_content(
-            model=self.model, contents=prompt, config=cfg)
-        return (resp.text or "").strip()
+        n = len(self._clients)
+        for _ in range(n * 3 + 2):
+            if len(self._dead) >= n:
+                break
+            while self._idx in self._dead:           # skip exhausted keys
+                self._idx = (self._idx + 1) % n
+            wait = self._MIN_INTERVAL - (time.time() - self._last)
+            if wait > 0:
+                time.sleep(wait)
+            try:
+                resp = self._clients[self._idx].models.generate_content(
+                    model=self.model, contents=prompt, config=cfg)
+                self._last = time.time()
+                return (resp.text or "").strip()
+            except Exception as e:  # noqa: BLE001
+                self._last = time.time()
+                msg = str(e)
+                if "429" in msg or "RESOURCE_EXHAUSTED" in msg:
+                    if "PerDay" in msg or "per day" in msg.lower():
+                        self._dead.add(self._idx)    # daily quota gone for this key
+                    self._idx = (self._idx + 1) % n  # rotate to the next key
+                    continue
+                raise
+        raise RuntimeError("Gemini API: all keys hit their quota")
 
 
 class AnthropicLM:
@@ -132,29 +176,36 @@ READER_PROMPT = (
 
 WRITER_SYS = "You are a newsletter writer. Weave summaries into one coherent article."
 WRITER_PROMPT = (
-    "Write a single cohesive newsletter article (~4 short paragraphs) that "
-    "covers all of the items below. Stay faithful to the summaries; do not add "
-    "facts that are not present.\n\n{summaries}\n\nARTICLE:"
+    "Write a single cohesive newsletter article covering all of the items below.\n"
+    "Requirements: exactly 4 short paragraphs, ~250 words total, tight and "
+    "concise — no filler, no repetition, no preamble. Stay faithful to the "
+    "summaries; add no facts that are not present.\n\n{summaries}\n\nARTICLE:"
 )
 WRITER_REVISE_PROMPT = (
-    "Revise your newsletter using the editor's feedback. Keep it faithful to the "
-    "summaries.\n\nSUMMARIES:\n{summaries}\n\nPREVIOUS DRAFT:\n{draft}\n\n"
-    "EDITOR FEEDBACK:\n{feedback}\n\nREVISED ARTICLE:"
+    "Improve the draft below using the editor's feedback. Make ONLY the changes "
+    "needed to address the feedback — keep everything that already works. Do not "
+    "pad, do not repeat, and add no facts beyond the summaries. Keep it to exactly "
+    "4 short paragraphs (~250 words), concise.\n\n"
+    "SUMMARIES:\n{summaries}\n\nDRAFT:\n{draft}\n\n"
+    "EDITOR FEEDBACK:\n{feedback}\n\nIMPROVED ARTICLE:"
 )
 
 EDITOR_SYS = "You are a chief editor. Return ONLY JSON."
 EDITOR_PROMPT = (
     "Evaluate the newsletter draft against the source summaries on a 1-5 scale. "
-    "Return ONLY a JSON object with keys: "
-    "factuality, coherence, readability (ints 1-5), title (string), "
-    "feedback (string, one actionable sentence).\n\n"
+    "Score the SAME axes a downstream judge uses. Return ONLY a JSON object with "
+    "keys: factuality, coherence, readability, conciseness (ints 1-5), "
+    "title (string), feedback (string: one specific, actionable sentence "
+    "targeting the lowest-scoring axis).\n\n"
     "SUMMARIES:\n{summaries}\n\nDRAFT:\n{draft}\n\nJSON:"
 )
 
 SINGLE_SLM_PROMPT = (
     "You are a newsletter writer. Read the {n} articles below and write ONE "
-    "coherent newsletter article (~4 short paragraphs) covering all of them. "
-    "Use only facts present in the articles.\n\n{articles}\n\nARTICLE:"
+    "coherent newsletter article covering all of them.\n"
+    "Requirements: exactly 4 short paragraphs, ~250 words total, tight and "
+    "concise — no filler, no repetition, no preamble. Use only facts present in "
+    "the articles.\n\n{articles}\n\nARTICLE:"
 )
 
 
@@ -195,9 +246,10 @@ def editor_review(llm: LocalLM, summaries: list[str], draft: str) -> dict:
     prompt = EDITOR_PROMPT.format(summaries=_format_summaries(summaries), draft=draft)
     raw = llm.generate([prompt], max_new_tokens=256, system=EDITOR_SYS)[0]
     verdict = extract_json(raw)
-    scores = [verdict.get(k, 3) for k in ("factuality", "coherence", "readability")]
+    axes = ("factuality", "coherence", "readability", "conciseness")
+    scores = [verdict.get(k, 3) for k in axes]
     try:
-        verdict["avg"] = sum(int(s) for s in scores) / 3
+        verdict["avg"] = sum(int(s) for s in scores) / len(axes)
     except (ValueError, TypeError):
         verdict["avg"] = 3.0
     verdict.setdefault("title", "Newsletter")

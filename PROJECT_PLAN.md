@@ -10,7 +10,7 @@
 
 > **Research question:** *How far does role decomposition (a multi-agent pipeline of small open-source models) compensate for the quality limits of a single small language model (SLM) on a real generation task — and at what efficiency cost?*
 
-We use **automated newsletter generation** as the testbed. The deliverable is **not** "a system that makes nice newsletters"; it is a **measured study** showing that dividing the work across specialized lightweight agents recovers most of a large LLM's quality while staying small and fast.
+We use **automated newsletter generation** as the testbed. The deliverable is **not** "a system that makes nice newsletters"; it is a **measured study** of *how far* decomposition and self-correction close the gap — and where they fail. The measured answer is **differentiated**: role decomposition improves faithfulness (above even the large-LLM ceiling) at parity on judged quality, while a naive Editor→Writer self-correction loop **degrades** a 3B model's output. The headline insight: **self-correction's payoff is gated by base-model capability** — a weak model is a weak self-critic.
 
 This framing is deliberate: it converts an engineering demo into a research project, which is what unlocks the quantitative-evaluation and research-problem points below.
 
@@ -21,11 +21,11 @@ This framing is deliberate: it converts an engineering demo into a research proj
 | Rubric item | Pts | How this project satisfies it |
 |---|---|---|
 | Slides + code submitted on time | 10 | Schedule in §9; hard buffer on Day 6. |
-| New task/method not covered in lecture | +3 | Multi-agent "newsroom" **with an Editor→Writer self-correction feedback loop** (verification + regeneration). Not the lecture examples (OPRO / jailbreak). |
+| New task/method not covered in lecture | +3 | Multi-agent "newsroom" **with an Editor→Writer self-correction feedback loop** (verification + regeneration), studied as a controlled comparison. Not the lecture examples (OPRO / jailbreak). The method is implemented and *measured*; we report where it helps (decomposition) and where it hurts (self-correction with a weak reviser). |
 | Quantitative evaluation results | +3 | Three measured axes: (a) LLM-as-judge pointwise rubric scores, (b) LLM pairwise win-rate vs baselines, (c) faithfulness/hallucination rate + efficiency. Reported as tables + plots. |
 | Demo (mp4) | +2 | Screen recording of one end-to-end run (collect → summarize → write → edit → newsletter). |
 | Multiple models / datasets | +2 | **Models:** agent SLM(s) + single-SLM baseline + large-LLM API baseline + judge model (3–4 distinct models). **Datasets:** HackerNews (tech) + arXiv (research) — two domains. Either alone satisfies the item; we have both. |
-| New research problem (extra credit) | +2 | The thesis in §1 is an explicitly stated, self-proposed research question with a measured answer. |
+| New research problem (extra credit) | +2 | The thesis in §1 is an explicitly stated, self-proposed research question with a measured, non-obvious answer (decomposition helps faithfulness; self-correction is gated by base-model capability). |
 
 **Key point:** every bonus item is a *byproduct of doing the baseline comparison properly*, not an artificial add-on. We do not contort the architecture to tick boxes.
 
@@ -57,7 +57,7 @@ Four specialized agents in a pipeline, plus one feedback loop.
 - **Editor (chief editor):** checks grammar/coherence, generates a title, and **scores the draft against a rubric**. If the score is below threshold (or it detects a factual inconsistency vs the source summaries), it returns structured feedback and the Writer regenerates — up to `K` iterations. **This loop is the "new method" contribution.**
 
 ### 3.1 Self-correction loop (the +3 "new method")
-The Editor emits a JSON verdict: `{coherence, factuality, readability, pass: bool, feedback: str}`. On `pass=false`, the Writer is re-prompted with the feedback and the previous draft. Capped at `K=2` retries to bound latency. We **log every iteration** so we can show in the report how many drafts converge and how quality improves across iterations (an extra quantitative figure).
+The Editor emits a JSON verdict: `{coherence, factuality, readability, pass: bool, feedback: str}`. On `pass=false`, the Writer is re-prompted with the feedback and the previous draft. Capped at `K=2` retries to bound latency. We **log every iteration** and report how many drafts converge and how quality changes across iterations. **Finding (n=30):** with a 3B reviser, the loop does *not* improve quality — judged quality and faithfulness both drop vs the no-feedback pipeline while latency ~2.4×. This is the project's key insight, not a bug: self-correction is gated by base-model capability.
 
 ---
 
@@ -68,7 +68,7 @@ The Editor emits a JSON verdict: `{coherence, factuality, readability, pass: boo
 | Agent SLMs (Scout logic / Reader / Writer / Editor) | `Llama-3.2-3B-Instruct` | ~6–7 GB (bf16) | Default: one shared 3B model with role-specific prompts. |
 | (Optional) per-agent models | e.g. Reader=`Llama-3.2-3B`, Writer=`Qwen2.5-7B` | sequential load | Strengthens "multiple models" but adds memory juggling — **optional, not required**. |
 | **Baseline A — lower bound** | single SLM, monolithic prompt (`Llama-3.2-3B`) | shared | "Do everything in one call." Isolates the value of decomposition. |
-| **Baseline B — upper bound** | large LLM via **external API** (e.g. Claude / GPT-4o) | API | Reference ceiling. Small eval set ⇒ negligible cost. |
+| **Baseline B — upper bound** | large LLM via **external API** (default `gemini-3.5-flash`; Claude also supported) | API | Reference ceiling. Small eval set ⇒ negligible cost. |
 | **Judge** | `Qwen2.5-14B-Instruct` (4-bit) | ~9–10 GB on 3090 | Different family + larger than the 3B generators ⇒ mitigates self-preference bias. |
 
 **Bias control:** the judge (Qwen-14B) is a *different family and larger* than the generators (Llama-3B). For pairwise judging we also randomize A/B order and average both directions to cancel position bias. (Optional cross-check: also judge with the API model and report agreement.)
@@ -98,16 +98,16 @@ For each input, judge compares **[multi-agent SLM]** vs **[single-SLM baseline]*
 
 ### 6.3 Faithfulness / hallucination (reference-based, objective)
 Because we *hold the source articles*, we can measure factuality without a judge:
-- **NLI entailment:** source = premise, each generated sentence = hypothesis, scored by an off-the-shelf NLI model (e.g. `roberta-large-mnli`). Report % entailed (faithful) sentences.
-- **Hallucination count:** named entities / numbers appearing in the output but absent from the source. Lower = better.
-- *Hypothesis:* the single SLM, fusing 5 articles in one shot, hallucinates more; per-article decomposition (Reader) reduces it. Proven by the number.
+- **NLI entailment:** source = premise, each generated sentence = hypothesis, scored by an off-the-shelf NLI model (`cross-encoder/nli-deberta-v3-base`). The source is split into **overlapping windows** so a sentence about *any* article (not just the first ~500 tokens) can be matched against its evidence. Report % entailed (faithful) sentences. *(This is the `faithful_pct` column in `scores.csv`.)*
+- *Hypothesis:* the single SLM, fusing 5 articles in one shot, hallucinates more; per-article decomposition (Reader) plus the Editor→Writer feedback loop reduces it. Proven by the number.
+- *(Optional extension, not in the final table: count named entities / numbers in the output but absent from the source.)*
 
 ### 6.4 Efficiency (free objective numbers)
-| Metric | How |
-|---|---|
-| End-to-end latency (s) | `time.perf_counter()`; shows Reader parallelism benefit |
-| Total tokens | tokenizer count across all calls |
-| Peak GPU memory (GB) | `torch.cuda.max_memory_allocated()` |
+| Metric | How | In `scores.csv` |
+|---|---|---|
+| End-to-end latency (s) | `time.perf_counter()` per system; shows Reader parallelism benefit | `latency_s` |
+| Revision iterations | Editor→Writer loops actually taken | `avg_iters` |
+| Total tokens / peak GPU (GB) | tokenizer count / `torch.cuda.max_memory_allocated()` | *optional, not reported* |
 
 ---
 
@@ -115,16 +115,18 @@ Because we *hold the source articles*, we can measure factuality without a judge
 
 Systems compared: **(1)** large-LLM baseline (ceiling), **(2)** single-SLM baseline (floor), **(3)** multi-agent SLM — *no* feedback loop, **(4)** multi-agent SLM — *with* feedback loop (full proposal).
 
-| System | Judge (1–5) | Win-rate vs single-SLM | Faithful % | Halluc. ↓ | Latency (s) | Peak GPU (GB) |
-|---|---|---|---|---|---|---|
-| Large LLM (API, ceiling) | — | — | — | — | — | — |
-| Single SLM (floor) | — | — | — | — | — | — |
-| Multi-agent SLM | — | — | — | — | — | — |
-| **+ feedback loop (ours)** | — | — | — | — | — | — |
+(Columns below mirror `scores.csv`: 4 rubric axes → `judge_avg`, `winrate_vs_floor_pct`, `faithful_pct`, `latency_s`, `avg_iters`.)
+
+| System | Judge avg (1–5) | Win-rate vs floor % | Faithful % | Latency (s) | Avg iters |
+|---|---|---|---|---|---|
+| Large LLM (API, ceiling) | — | — | — | — | — |
+| Single SLM (floor) | — | — | — | — | — |
+| Multi-agent SLM | — | — | — | — | — |
+| **+ feedback loop (ours)** | — | — | — | — | — |
 
 Plots: (a) bar chart of judge scores per system per domain; (b) quality-vs-cost scatter (judge score vs latency); (c) quality across feedback-loop iterations.
 
-**Headline story to land:** *"The multi-agent SLM recovers ~X% of the large LLM's judged quality and Y% lower hallucination than a single SLM, while running faster and within 24 GB."*
+**Headline story to land:** *"Role decomposition lifts faithfulness above even the large-LLM ceiling (single-SLM 25.6% → multi-agent 32.7%, API 31.2%) at parity on judged quality — but naive Editor→Writer self-correction with a 3B reviser hurts (judged quality and faithfulness drop, latency 2.4×). Self-correction's payoff is gated by base-model capability."* (Lead with faithfulness + pairwise win-rate; judge_avg differences are small and reported as secondary.)
 
 ---
 

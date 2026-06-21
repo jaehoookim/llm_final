@@ -106,6 +106,8 @@ def cmd_evaluate(cfg):
     for r in records:
         src = r["source"]
         for s in systems:
+            if s not in r:  # a system may be missing on some records (e.g. API
+                continue    # baseline cut short by a rate limit) — skip, don't crash
             text = r[s]["newsletter"]
             pw = ev.judge_pointwise(judge, src, text)
             for ax in ev.AXES:

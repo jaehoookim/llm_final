@@ -18,7 +18,9 @@ judge_load_in_4bit: true
 api_baseline:
   enabled: true
   provider: "gemini"            # "gemini" or "anthropic"
-  model: "gemini-2.5-flash"     # e.g. gemini-2.5-flash / gemini-2.5-pro / claude-opus-4-8
+  model: "gemini-3.5-flash"     # strong ceiling. Free tier is 20 req/day per
+                                # project, so set GEMINI_API_KEY_2/_3 (separate
+                                # projects) and the client rotates keys on 429.
   api_key: ""                   # paste a key here, or leave "" to use the env var
 
 # NLI model for reference-based faithfulness (entailment of generated sentences).
@@ -31,7 +33,9 @@ domains: ["tech", "research"]  # tech=HackerNews, research=arXiv (cs.AI/cs.CL)
 
 # --- Pipeline ---------------------------------------------------------------
 feedback_max_retries: 2      # Editor->Writer self-correction loop cap (K)
-editor_pass_threshold: 4     # min avg Editor score (1-5) to accept a draft
+editor_pass_threshold: 4.0   # min avg Editor score (1-5, now over 4 axes incl.
+                             # conciseness) to accept a draft. Below -> revise;
+                             # reach it -> converge. Lets the loop fire AND pass.
 
 # --- Generation -------------------------------------------------------------
 max_new_tokens_summary: 160

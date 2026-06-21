@@ -1,5 +1,5 @@
 torch>=2.1
-transformers>=4.45
+transformers>=4.45,<5        # 5.x needs torch>=2.4; server has torch 2.3.1
 accelerate>=0.34
 bitsandbytes>=0.43        # 4-bit loading for the local judge
 sentencepiece>=0.2
@@ -7,6 +7,7 @@ google-genai>=0.3         # external large-LLM baseline (Gemini, default)
 anthropic>=0.40           # only needed if api_baseline.provider == "anthropic"
 requests>=2.31            # HackerNews / arXiv APIs
 PyYAML>=6.0
+python-dotenv>=1.0        # load tokens/API keys from a .env file
 tqdm>=4.66
 rouge-score>=0.1.2        # optional summary-quality metric
 matplotlib>=3.7           # slide figures (plot.py)

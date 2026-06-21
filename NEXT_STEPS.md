@@ -19,9 +19,11 @@ git clone https://github.com/jaehoookim/llm_final.git
 cd llm_final
 pip install -r requirements.txt
 
-# Auth (env vars only — nothing committed):
-export HF_TOKEN=<new_hf_token>        # Llama-3.2 / Qwen2.5 download
-export GEMINI_API_KEY=<gemini_key>    # API baseline (get one at aistudio.google.com/apikey)
+# Auth — put keys in .env (gitignored, auto-loaded by utils.py):
+cp .env.example .env
+#   HF_TOKEN=...         Llama-3.2 / Qwen2.5 download
+#   GEMINI_API_KEY=...   API baseline (get one at aistudio.google.com/apikey)
+# (plain `export`s still work too)
 
 df -h .        # check there's ~35GB free for the model caches (3B + 14B weights)
 nvidia-smi     # confirm the 3090 is visible
