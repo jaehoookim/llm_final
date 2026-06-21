@@ -1,0 +1,467 @@
+[
+  {
+    "id": 0,
+    "domain": "tech",
+    "items": [
+      {
+        "title": "Developers don't understand CORS (2019)",
+        "url": "https://fosterelli.co/developers-dont-understand-cors",
+        "text": "Even TFA seemingly doesn't understand CORS. Or at least misreprents it grossly: > The webserver listening in on localhost:19421 should implement a REST API and set a Access-Control-Allow-Origin header with the value https://zoom.us . This will ensure that only Javascript running on the zoom.us domain can talk to the localhost webserver. No, that does not do that. JavaScript from any other website  It's not just CORS that's hard to understand. Many (most?) developers don't really understand the threat model. And even when it's explained it hard to see why it's a big deal. Part of this is that backend developers usually have to configure CORS and it's not an access privilege protection. From the point of view of the backend it doesn't seem to matter. Bad guys can't get it. From the point of v I'm one of them. CORS is THE topic that I have to get a refresher for periodically. It's like I forget about it, it never sticks. I'm a backend developer so I never encounter any cors issues. Maybe that's why? I seem to forget things that I don't use on a day to day basis, so."
+      },
+      {
+        "title": "Building reliable agentic AI systems",
+        "url": "https://martinfowler.com/articles/reliable-llm-bayer.html",
+        "text": "The most important part is the database that the agent can see and how clean the data is. I pitched a custom enterprise agent to a client thinking it would be maybe 50/50 time on data vs agent tuning, but it's more like 99/1. The alignment process goes very quickly once you have all the fish in exactly one barrel. I think pulling data dynamically from the source systems is where this turns into a  What was the main driver for a dynamic workflow with loops vs a rigid forward running only workflow. The non-deterministic nature of these loops with LLM decision points doesn't mesh well with the transparency requirement imho The part about context discipline feels underrated. Larger context windows don’t remove the need to decide what the model shouldn’t see."
+      },
+      {
+        "title": "Zigzag Decoding with AVX-512",
+        "url": "https://zeux.io/2026/06/17/zigzag-decoding-avx512/",
+        "text": "Zigzag Decoding with AVX-512"
+      },
+      {
+        "title": "Renting a sewing machine from the library",
+        "url": "https://www.bbc.com/future/article/20260618-the-weird-and-wonderful-libraries-of-finland",
+        "text": "My local library which is part of the Washington county Library system (next to Portland). It's where Hillsboro is, which is where Intel's manufacturing is, also called Silicon Forest, has a Library Of Things! I've checked out a KitchenAid stand mixer, synthesizer, guitar, stud finder, drum machine, ukulele, air quality detector, and many more things. They also have a sewing machine and a. Vitamix My library has something similar. Sewing and embroidering machines, 3D printers and even a CNC machine. Most are free to use as long as you bring the material, the only one that I can remember having a cost is the laser cutter but even then it was under 10 bucks an hour. They have a bunch of other things like being able to check out a pass the the state parks and some museum passes. This is the Ch I am not very fond of this idea. I think libraries are for books, or possibly media. I can see the utility but I think it distracts from the actual purpose."
+      },
+      {
+        "title": "Loupe – A iOS app that raises awareness about what native apps can see",
+        "url": "https://github.com/mysk-research/loupe",
+        "text": "For anyone without an iPhone or doesn't want to install the app you can see a demo here (same video different platforms): https://odysee.com/@techlore:3/permission-not-required-the-o... https://www.youtube.com/watch?v=_n_SpEWtqog https://inv.nadeko.net/watch?v=_n_SpEWtqog https://techlore.tv/w/d7dh4P7y4dVngNoL7u7s3B /me wonders of the privacy label should actually mention that it reads everything and the kitchen sink!!! Damn. The \"iPhone last setup or erased on ...\" is really nasty. What can a user really do about that? I feel like this should be fudged somehow by the OS."
+      }
+    ]
+  },
+  {
+    "id": 1,
+    "domain": "tech",
+    "items": [
+      {
+        "title": "Epoll vs. io_uring in Linux",
+        "url": "https://sibexi.co/posts/epoll-vs-io_uring/",
+        "text": "I've not yet tested the shared buffers for my io uring based web server, but that's because instead of reading from a file and writing, i send directly from a mmaped region. But really, I want to sendfile with io_uring, but that's not supported yet. My writeup, with extra buzzwords like Rust and kTLS: https://blog.habets.se/2025/04/io-uring-ktls-and-rust-for-ze... It was on HN too: https://news.yc > But my students weren’t as happy as I was - they wanted to build something genuinely useful, and they were really disappointed that our “product” had strong architectural limits and couldn’t outperform titans like nginx and haproxy. I took a (very brief) look at the github repo [1], it doesn't look like you're doing anything with cpu pinning. You can probably eke (thanks) out a bit more performa Take a look at https://github.com/concurrencykit/ck and https://github.com/microsoft/mimalloc , it will fit well for a zero-copy and mem aligned reverse proxy. Also, if you want to add a DDoS protection and more advanced L4 stuff check out https://docs.ebpf.io/ebpf-library/libxdp/libxdp/"
+      },
+      {
+        "title": "The 100k Whys of AI",
+        "url": "https://lcamtuf.substack.com/p/the-100000-whys-of-ai",
+        "text": "A nice illustration of the homogeneity of LLM responses. Another way to describe this effect would be… If you ask humans to write 1,000 books, you're asking 1,000 different humans with different experiences and different skills and different moods (etc.) to write those books. But if you ask LLMs to write 1,000 books, you're probably only talking to 3 or 5 different models, tops. And they've all tr There used to be a word for this in generative AI: mode collapse. It's not that the model doesn't generate human-like responses, it's that it generates the same 0.0001% of possible human like responses every time. It's almost certainly the instruction tuning which is responsible, maybe some small part of blame could go to the rollout policy (I have no idea how rollout policy works these days). When you generate one or two blog posts with LLM they look pretty good. And you will be impressed with that one clever bit it adds that you didn't even ask for. But then you generate 50 of them and they all converge into the same pattern. It's hard to prove that an article is AI generated but they are instantly recognizable. An aside, I usually take my written blog posts through a pass on Notebook"
+      },
+      {
+        "title": "Slow breathing modulates brain function and risk behavior",
+        "url": "https://www.cell.com/neuron/fulltext/S0896-6273(26)00339-9",
+        "text": "Slow breathing is also recommended for novices before public speaking, as it helps speakers overcome irrational physiological fear of facing people, the risk-taking shift is useful as it helps you speak more confidently, not more cautiously. Slow breathing can calm nerves quickly; bottom-up regulation: body tells brain “you’re safe”. Parasympathetic nervous activation increased risk-taking behavior? That's interesting/unexpected (at least to me). Also, this part caught my eye: > The selective impact of prolonged exhalation breathing on reward responsiveness has important implications for clinical contexts, such as anxiety, panic disorder, and depression, given their distinct autonomic signatures and maladaptive reward processi \"When you feel so mad that you want to roar, take a breath and count to four.\" - Daniel Tiger's mom"
+      },
+      {
+        "title": "Show HN: TownSquare, a tiny presence layer for websites",
+        "url": "https://townsquare.cauenapier.com/",
+        "text": "https://cauenapier.com/blog/townsquare_release/ https://cauenapier.com/blog/townsquare/"
+      },
+      {
+        "title": "Your brain was never designed for this much bad news",
+        "url": "https://www.sciencedaily.com/releases/2026/06/260614012006.htm",
+        "text": "Neil Postman called this the “Peekaboo World”. “What steps do you plan to take to reduce the conflict in the Middle East? Or the rates of inflation, crime and unemployment? What are your plans for preserving the environment or reducing the risk of nuclear war? What do you plan to do about NATO, OPEC, the CIA, affirmative action, and the monstrous treatment of the Baha’is in Iran? I shall take the  I don't know, I am a naturally anxious person even before I started reading the news daily, and I'm fine. Seeing the brutal chaos of the world definitely makes me appreciate the peace at home more. It's a grounding experience to be aware of the good and bad things that happen in the world. I only read local news. It’s pretty nice I don’t feel stressed at all. Turns out random shit far away has no significant effect on my life. And even if it did it’s not like I can do anything about it"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "domain": "tech",
+    "items": [
+      {
+        "title": "15-minute at-home Lyme disease tick test",
+        "url": "https://www.bostonglobe.com/2026/06/17/business/lyme-disease-tick-test/",
+        "text": "https://lymealert.com/how-it-works/ I’m not optimistic this will be all that helpful. Just because the tick you found is negative, that tells you nothing about those you did not find. Just because a tick is positive, that does not mean that it has infected whoever it was attached to. My understanding is that the ticks only transmit disease after they have been attached long enough to become engorg I always keep doxycyline around take a couple whenever I find a deer tick on me. https://www.ncbi.nlm.nih.gov/books/NBK545493/table/rc1121.ap... I like that it involves grinding up the tick. Just deserts."
+      },
+      {
+        "title": "Guide to the TD4 4-bit DIY CPU",
+        "url": "https://www.philipzucker.com/td4-4bit-cpu/",
+        "text": "Awesome! I wonder if it would be possible to extend it to get 4bit games running https://youtu.be/eKpjXh-vH8I?si=rNMJpJIu1Hk0X9vQ"
+      },
+      {
+        "title": "SMPTE Makes Its Standards Freely Accessible",
+        "url": "https://www.smpte.org/blog/smpte-makes-its-standards-freely-accessible-openingstandards-library-to-the-global-media-technology-community",
+        "text": "At last. It's time the whole would gets on board with open standards that are truly open, and there is explosive devopment going on in the world of new approaches to media production and distribution that this can only aid. It's net-head vs. Bell-heads all over again, and one of the biggest reasons for the success of the IETF standards was the no-cost availability of all their standards. In France if a standard is mandated by law (like electrical home wiring) then it must be freely available. I assume most democracies have similar laws, it's a basic right to know what laws you should follow ... I don't understand why any standards body would consider not doing this as a default."
+      },
+      {
+        "title": "When I reject AI code even if it works",
+        "url": "https://vinibrasil.com/when-i-reject-ai-code-even-if-it-works/",
+        "text": "Even using Fable (while it was briefly available), having it refine a plan, and directing it to make only small incremental changes, I still found reasons to reject its first pass at a lot of work. There was a lot of “You’re right to push back” responses. A lot of incidents where it would creat some giant complex set of abstractions to accomplish something that I could find ways to do much more el Coding with AI eventually comes down to two paths, I've realized. One is using AI exclusively for everything. The other is not using it at all. There is almost no middle ground. The reason is that as the complexity and depth of the problem increase, the code AI generates increasingly follows enterprise level patterns. The deeper the meaning of what I input, the more AI tends to produce code that g If we rephrased this to \"When I reject my coworkers code even if it works\" and give the same reasons there would be zero dissent. There is this weird idea that seems to come up with AI that any solution must be good and adequate. Software Engineering is all about rejecting code that works for the right code that works."
+      },
+      {
+        "title": "UHF X11: X11 Built for VisionOS and Apple Vision Pro",
+        "url": "https://www.lispm.net/apps/uhf-x11/",
+        "text": ">3D in 2D in 3D. OpenGL clients can use GLX rendering over X11. Compatibility varies, as it did in the 2000s. Made me chuckle. I think at one point in my life I actually knew which exact GL versions and features were working on which servers. Also it's pretty cool. Still won't buy an AVP. I can't believe the screenshot isn't running xeyes. At least it is TWM. WayVR is also worth checking out, if you're interested in using a native x11/Wayland desktop with a headset on Linux: https://github.com/wayvr-org/wayvr"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "domain": "tech",
+    "items": [
+      {
+        "title": "DOS Game \"F-15 Strike Eagle II\" reversing project needs DOS test pilots",
+        "url": "https://neuviemeporte.github.io/f15-se2/2026/06/20/needyou.html",
+        "text": "Playable DOS version available First step was the full reverse to assembler, second step is to convert the assembler to binary equal compiled C code, all this still on DOS until no assembler code is left, then the porting to Linux,Windows will start Reversing tends to bring in new bugs and its not easy to find all bugs in such old and reversed code - but so far everything seems to work try finding Noob question. I really hope this doesn't come across as negativity. I love that people spend time on making old games work, but why do people decompile games that can be emulated by DOSbox or the like? Surely a game this old runs absolutely fine on even very low end hardware? It’s ridiculously easy to port games now. https://robin.tooclever.org took less than a day in API time"
+      },
+      {
+        "title": "Unauthorized alert sent to cell phones across Brazil",
+        "url": "https://www.cnn.com/2026/06/20/americas/brazil-hackers-unauthorized-alert-latam",
+        "text": "Disabling alerts is the second thing I do to a new handset (after rooting) - including Presidential alerts. The Amber alerts I got were often hundreds of miles away. But even if they were closer - say only 25 mi away, I'm still not going to be any help. Weather alerts weren't much better. Having my device sound the klaxons over Red Flag warnings conditioned me to ignore all alerts. \"The message sent was of the ‘Extreme Alert’ type and contained the word ‘misanthropy’ – which means hatred towards humanity. It is probably a hacker attack,” the agency’s statement said.\" As this happens whenever there is an intrusion reported in the press, the word \"hacker\" is often misused: \"There is another group of people who loudly call themselves hackers, but aren't. These are people (mainl There was a Larry Niven story where if you tried to call a certain guy, every phone in South America would ring instead. Anyone remember which story it was? The phone thing was just a throwaway line, not a significant plot point."
+      },
+      {
+        "title": "Armstrong Effect",
+        "url": "https://en.wikipedia.org/wiki/Armstrong_effect",
+        "text": "I wonder if this is a technique that's been passed down through the Armstrong family for generations"
+      },
+      {
+        "title": "Whole cross-sectional human ultrasound tomography",
+        "url": "https://www.nature.com/articles/s41551-026-01660-4",
+        "text": "The results really look rather blurry compared to the MRI... Presumably that's just a matter of better system modelling to fix? Relevant article: Scanning the Body with Sound https://www.caltech.edu/about/news/scanning-the-body-with-so... Be interested to know if this is related to the same process/technology that Midjourney announced last week[0] 0. https://www.midjourney.com/medical/blogpost"
+      },
+      {
+        "title": "Semiconductor Lifeline Keeps Fighter Jets in the Air",
+        "url": "https://spectrum.ieee.org/phoenix-semiconductors-legacychips-oems",
+        "text": "Turtles all the way down and up: Vehicle makers sourcing plug-compatible devices which emulate floppy drives for updating tank s/w, Airlines sourcing print and terminals emulating IBM mainframe era dependencies for gate check processes. Talking of mainframes, many core bank registry functions are emulations of prior systems long embedded into architectures now themselves superseded. Support for te Go get them. If you look heard enough you may find stock piles of these chips in warehouse somewhere that someone bought off an auction. maybe not on ebay:) but these days you never know. It's surprising the DoD didn't require stockpiles of spares for every electronic component in these phenomenally expensive and long-lived weapon systems. This is after all the one arm of the Federal Government that is both good at logistics and planning, and was able to deliver frozen ice cream and other amenities to the most remote Forward Operating Bases in Afghanistan."
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "domain": "tech",
+    "items": [
+      {
+        "title": "Project Fetch: Phase Two",
+        "url": "https://www.anthropic.com/research/project-fetch-phase-two",
+        "text": "I'm getting a bit tired of these disguised adverts. Here's how non robotics engineers used AI to do a short robot integration task faster than other non robotics engineers without AI. Where \"better\" mostly means faster, and who knows what happens on longer horizons, with actual robotics experts, robustness requirements, or tasks where the hard part is control rather than API spelunking. > Preliminary trials with Claude Mythos Preview showed that it would not provide an apples-to-apples comparison with other models because of how we had set up the experiment and how the model was served. What does this mean? My guess is they couldn’t co-locate Mythos close enough to reduce latency? (I’m assuming this experiment pre-dates the export controls) This mostly reads as a comparison between Opus 4.7 and 4.1 it would be more interesting if they reran the experiment against a team of humans with 4.7 and see how much the humans still improve the results today."
+      },
+      {
+        "title": "The Lost Story of Alan Turing's \"Delilah\" Project",
+        "url": "https://spectrum.ieee.org/alan-turings-delilah",
+        "text": "A look inside Turing’s notebooks shows his DIY approach"
+      },
+      {
+        "title": "NOLA 'Nacular: One man's crusade to preserve New Orleans's vernacular signage",
+        "url": "https://countryroadsmagazine.com/art-and-culture/people-places/nola-nacular/",
+        "text": "For anyone interested in this style of art, I’d recommend checking out Margaret Kilgallen’s work. She had similar ideas in San Francisco during the 90s. godspeed but new orleans will be under water in couple of decades if not sooner…"
+      },
+      {
+        "title": "Linux eliminates the strncpy API after six years of work, 360 patches",
+        "url": "https://www.phoronix.com/news/Linux-7.2-Drops-strncpy",
+        "text": "https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/lin..."
+      },
+      {
+        "title": "Alice is impatient",
+        "url": "https://brooker.co.za/blog/2026/06/19/waiting.html",
+        "text": "Considering other metrics then p99 for user impact is unwise. All users will at some point experience a <1% request, it's not like half of all users will only send requests what will be under your median latency, some of their requests will hit your worst-case. By focusing on the tail and optimizing worst cases you help users more than by improving your median latency. > More technically, what’s going on here is the inspection paradox. Alex and Alice don’t experience your latency distribution , they experience a t-weighted version of it Ooh I got pushed in the 2m end of the pool there. What is the intuition? The ten hundred most popular words sort of thing. I am very interested in this article though. At first I assumed it would be about TTFB vs. time to render  This article contains very little substance. Show me the math!"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "domain": "tech",
+    "items": [
+      {
+        "title": "Temporary Cloudflare accounts for AI agents",
+        "url": "https://blog.cloudflare.com/temporary-accounts/",
+        "text": "Looks like Cloudflare still haven't shipped the most valuable possible feature for Cloudflare Workers though: hard billing caps. I want to set a cap of $100/month and know, for sure, that if something untoward happens my apps will all stop serving traffic rather than me getting hit with a bill for $1000s. The safest way to use Workers is on the free tier, which will shut off after 100,000 requests Hot damn... > Any agent can now run wrangler deploy --temporary and deploy a Worker to Cloudflare. This temporary deployment stays live for 60 minutes, during which time you can claim the temporary account, making it permanently your own. If you don't, it expires on its own. Forget about agents, Cloudflare just provided free scratch deployments - ephemeral for 60 minutes - for anyone . This is goi Would love to know more about how Cloudflare plans to prevent abuse of ephemeral infrastructure to host malicious content. From elsewhere in their documentation, “Cloudflare limits how quickly you can create temporary preview accounts. If the Wrangler CLI cannot create an account because too many temporary preview accounts were requested too quickly, wait before retrying or authenticate the CLI wi"
+      },
+      {
+        "title": "Show HN: StartupWiki – A Free Alternative to Crunchbase",
+        "url": "https://startupwiki.tech/",
+        "text": "I've been building StartupWiki, a free startup database designed to make it easier to discover and research companies. The original motivation was frustration with how difficult it can be to find information on early-stage startups. Most databases need accounts, or subscriptions, ro just feel too cluttered. I wanted a website that felt like Wikipedia, no accounts, no subscriptions, no weird metrics, just go in, the info is on the page. The project is still very early, but currently includes: Startup profiles Search and filtering Company categorization Public API (in progress) I'm especially interested in feedback on: What information you look for when researching startups Features missing from existing startup databases API use cases I'd love to hear feedback."
+      },
+      {
+        "title": "Proportional-Integral-Derivative Controllers",
+        "url": "https://en.wikipedia.org/wiki/PID_controller",
+        "text": "The fascination of programmer types with classical control and estimation topics is endlessly interesting as someone who studied control and estimation and hangs out here for interest in the programming. For me it was surprising to see that JEPA is a model predictive control algorithm it an almost literal sense; I guess I’m happy to have studied what I chose when I was 18. Honest question: are wiki links to any technical topic post worthy now? Obligatory link to PID without a PhD: https://www.wescottdesign.com/articles/pid/pidWithoutAPhd.pd..."
+      },
+      {
+        "title": "The rise of South Korea’s weapons business",
+        "url": "https://www.politico.com/news/magazine/2026/06/20/south-korea-weapons-dealer-trump-00959559",
+        "text": "This article uses so many words to focus on the political reasons, but completely ignores the primary driver: Cost. Korean weapons systems are 40-60% cheaper than their American counterparts. The Korean K9 Thunder 155mm self-propelled howitzer costs $3.5 to $4 million per unit. For comparison, the American M109A7 Paladin costs around $8 million. The German PzH 2000 runs approximately $7 to $8 mill The speed at which Korea has supplied tanks, artillery, munitions, and even set up local production faster than traditional arms procurement. The Australian Military Aviation History channel on YouTube has a series of two fantastic videos on South Korea's KF-21 \"Borame\" program, and it also touches quite a bit on South Korean defense industrial base as a whole. [0][1] As a military aviation enthusiast , I couldn't be happier that there seems to be a lot more diversity in military hardware developments, especially in close to state-of-th"
+      },
+      {
+        "title": "Inference cost at scale with napkin math",
+        "url": "https://injuly.in/blog/napkin-inference-cost/index.html",
+        "text": "> We'll assume a 32B dense model, as they've have gotten quite good for production use and a B200 can comfortably serve them. This could be a Gemma, Qwen, DeepSeek, whatever. That seems like a very consequential point to include halfway through the post. They aren't wrong that Qwen 3.6 26B or Gemma 4 31B are quite good, depending on the use case, but if we're doing napkin math, I'd want some more  >This largely depends on whether you own or rent your hardware. At $40,000 per B200, your lifetime cost per user is 40_000/num_users. In the 100% duty cycle case (worst for cost), that's 6k$ per user. Realistically, serving 300 users per GPU you'll spend a lifetime cost of about $133 per user, plus the datacenter/upkeep bill . If you rent the GPU, the cost is more straightforward. At an hourly rat > Realistically, serving 300 users per GPU you'll spend a lifetime cost of about $133 per user, plus the datacenter/upkeep bill. What is the operational cost and when does it become more expensive than the upfront capex? The B200 tops out at 1000W and idles around 140W. It averages around 600W. https://www.lightly.ai/blog/nvidia-b200-vs-h100 U.S. average electricity cost is $.14 per kWh in March. "
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "domain": "tech",
+    "items": [
+      {
+        "title": "PostgresBench: A Reproducible Benchmark for Postgres Services",
+        "url": "https://clickhouse.com/blog/postgresbench",
+        "text": "My 2 cents: > Each run lasts 10 minutes, long enough to move past warmup and capture stable throughput But short enough not to show the effect of checkpoints (which is quite noticeable). It's not representing a realistic workload. I'd use at the very least 30mins with checkpoint_timeout=5mins so you get at least 6 checkpoint cycles. > We report average TPS, average latency, P95 latency, and P99 la It would be interesting to see vanilla postgres on a VPS and vanilla postgres on a bare metal server included too. I understand it's apples and oranges, but would it be slower, would it be faster, by how much? I'm curious to know how PlanetScale Postgres would fare."
+      },
+      {
+        "title": "Show HN: Make PDFs look scanned (CLI or in the browser via WASM)",
+        "url": "https://github.com/overflowy/make-look-scanned",
+        "text": "I made this because the online \"make my PDF look scanned\" tools want you to upload your file to their servers, which feels sketchy at best. Also, I wasn't happy with the output they produce, I wanted something that looks realistic."
+      },
+      {
+        "title": "The Wholesale Plagiarism of Obscure Sorrows",
+        "url": "https://waxy.org/2026/06/the-wholesale-plagiarism-of-obscure-sorrows/",
+        "text": "A similar thing is happening to me. I worked on something for 3 years which I give away for free to help people and a thief took my software, ran it through ai to rebrand everything and relaunched as their own app. Unfortunately the ai missed a few Easter eggs I had hidden so the theft is undeniable. Google and Apple are useless for dmca unless you have a court order. They refuse to look at or arb This is exactly what DMCA takedowns are actually for. From the article I guess Qontour reproduced the entire text verbatim. > it also includes the entire text of the book, from its opening 800-word foreword to a complete archive of all 311 neologisms... all penned by Koenig. So it doesn't seem likely to me that they asked AI to make a fan site and it spat out the book; instead they asked AI to make a fan site and then copy-pasted the text of the book"
+      },
+      {
+        "title": "Bun has an open PR adding shared-memory threads to JavaScriptCore",
+        "url": "https://github.com/oven-sh/WebKit/pull/249",
+        "text": "I wonder if I'm the only one for whom the bun project vanished completely. In software code is only part of the package. Stability and trust are big part of it, too. And for me 1800 files change PRs created by Anthropic overseen by one person is not necessarily adding to the package. Even it that'd be the best code and design in the world, I won't use it. I don't trust it. I’m the author of this PR. This PR is an implementation of the design from https://webkit.org/blog/7846/concurrent-javascript-it-can-wo... . I think it would be really cool if JavaScript had true shared object multi-threading without compromises (SharedArrayBuffer, postMessage are not that). If we had both threads and structs, it’s likely the TypeScript compiler would never have needed to be rewri I knew it was possible :-) https://webkit.org/blog/7846/concurrent-javascript-it-can-wo..."
+      },
+      {
+        "title": "GPT-5.5 hallucinates 3x more than MIT-licensed GLM-5.2",
+        "url": "https://arrowtsx.dev/bigger-models/",
+        "text": "> it is clear that actual intelligence has plateaued significantly. > Moving forward, the industry cannot continue to train bigger and bigger models since their intelligence not only plateaus but often will get worse These are wild claims - why are we concluding that bigger models and more data = more hallucination? That’s actually the opposite of what’s been happening over the last couple years.  Hallucination rate scores are a little tricky to interpret because they're conditional on the model not knowing the answer. That means they don't measure the probability of your encountering a hallucination in everyday use, since that also depends on the probability of the model not knowing the answer, as well as how well your distribution of tasks aligns with the distribution tested in the eval.  One thing I wonder about hallucinations, is that it seems on the surface that it is an easy problem for RLVR to target. Since you're already generating enormous amounts of reasoning traces which are verified by correct answers, just have \"don't know\" as an option as a valid answer, and on problems where none of the thousands of reasoning traces led to a correct answer, just promote the traces that"
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "domain": "tech",
+    "items": [
+      {
+        "title": "CSSQuake",
+        "url": "https://cssquake.com/",
+        "text": "This is an awesome achievement, but I can't help but notice that Quake ran smoother on my Pentium-133 PC in the 90s than it runs on my Mac M1 Pro... Awesome! Harder to exit than vim. Impressive. I guess this isn't only the renderer made to use CSS but also a full recreation of the engine and logic right? My guess is because a bunch of things do not behave like the original game, e.g. some buttons need to be shot instead of touched to activate, some secret doors open by touching them instead of being shot, etc."
+      },
+      {
+        "title": "Polymarket Paid Dozens to Post Videos of Themselves 'Winning' with Fake Bets",
+        "url": "https://m.slashdot.org/story/455718",
+        "text": "Today I tried to make a move there, but I ended up stopping halfway. There are some types of, let’s say, bets there that are somewhat ridiculous. This market should be a bit more regulated and have some common sense. Unfortunately, I’m seeing betting houses being more sensible than the new model of prediction markets. And it’s a bit strange to say that. Aren’t they CFTC regulated? If so, it’s jail time!"
+      },
+      {
+        "title": "Show HN: We post-trained a model that pen tests instead of refusing",
+        "url": "https://www.argusred.com/cli",
+        "text": "Anthropic and OpenAI's publicly available models are explicitly guard-railed so that they refuse offensive tasks. And their cyber-focussed models are gated for enterprises. This leaves SMEs and mid market open to major vulnerabilities. AI can be used as both an adversarial and defensive tool in the world of cyber. A worst case outcome is if only the adversaries have access. Meanwhile, most existing AI cyber tools are just wrappers. The problem is that they still have all the guardrails on from the foundation model where they will inherit its refusals. For this project we've post-trained a specific model on a decade of capture-the-flag contests. This won't be made available to anyone and everyone, but we do believe that responsible SMEs and midmarket companies also need access to these tools in order to identify key vulnerabilities in their systems; not just enterprises. We have developed two modes that run over a CLI: • Security scan: a read-only audit of your local codebase for vulnerabilities. It only reports what it can tie to a specific file and line, so you're not wading through vibes-based findings. • Pen test: an active adversarial mode that will try to break a live system in a sandboxed environment. It proves each vulnerability by running the exploit and showing the request it sent and the response your code gave back, not a confidence score. Currently gated. To show what the scan does, we pointed it at Bank of Anthos and it found an integer overflow in the transfer p"
+      },
+      {
+        "title": "Show HN: Microcrad – Micrograd Reimplemented in C",
+        "url": "https://github.com/oraziorillo/microcrad",
+        "text": "Hey HN, I'm Orazio. I built microcrad (with a 'c'), a tiny scalar-valued automatic differentiation engine, with a small multi-layer perceptron implementation on top. It's reimplementation of Andrej Karpathy's micrograd in C. For me, this was a learning project to revisit backpropagation from first principles, with the additional difficulties that come with programming in C. The basic idea is the s"
+      },
+      {
+        "title": "Why has the pointe shoe been so resistant to change?",
+        "url": "https://dancemagazine.com/pointe-shoe-innovation/",
+        "text": "Avery Trufelman does an incredibly well-researched podcast on clothing of all kinds by the name of Articles of Interest. They did a whole show on the pointe shoe. You can check it out here: https://articlesofinterest.substack.com/p/on-pointe This is an interesting dynamic with a number of elements in play which might have carry-over to other realms of new technology adoption (or resistance): - A small and specialised market. - Numerous gatekeepers, each of whom might exert a veto (dancers, teachers, company directors, etc.). - Highly subjective judging criteria, with benefits or limitations of alternatives not being evident possibly f I've seen the pictures of ballerinas' toes -- in this era of 3D printing is there no way to distribute the load up to where the foot widens into the heel?"
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "domain": "tech",
+    "items": [
+      {
+        "title": "Show HN: My Windows XP portfolio with working Game Boy and iPod",
+        "url": "https://mitchivin.com/",
+        "text": "I posted my portfolio here about a year ago ( https://news.ycombinator.com/item?id=45154609 ) and while there was a big response, it was very mixed! It'll probably be similar this time, but regardless of your thoughts about the concept, I think I've done a pretty good job creating one of the most nostalgic corners of the internet, especially with the latest additions. It'll always be up for debate whether this is an effective way to get noticed as opposed to a standard, quick and easy portfolio, but I'll die on the hill that this is way more fun for both parties, every day of the week."
+      },
+      {
+        "title": "Pre-2022 Books",
+        "url": "https://notes.lorenzogravina.com/musings/pre-2022-books",
+        "text": "It's one of the reasons I don't want to update my free book about Ruby: https://leanpub.com/rubyisforfun - written by a human, and will stay the same forever I think. The moment you touch it to update - immediately changes the date from 2022-05-26 to 2026 and all the value is gone I've been consciously doing that for reference books for the past three years because Amazon is absolutely littered with AI-generated non-fiction. I have my own ideological reasons too, but the main problem is that most of that AI-generated reference stuff is just of incredibly poor quality. It's meant to saturate the platform as cheaply as possible, so no one actually does any fact-checking, edit And there might be no way to prove you really wrote something Post-2022. I wrote a long article, all by hand. I never used any LLMs, even for searching. I checked it with a couple of AI detection tools and they confidently said that 60% of the article was written by AI."
+      },
+      {
+        "title": "Pondering routing more of my traffic via nodes outside the UK",
+        "url": "https://neilzone.co.uk/2026/06/pondering-routing-more-of-my-traffic-via-nodes-outside-the-uk-because-of-the-direction-of-uk-online-safety-policy/",
+        "text": "Pondering routing more of my traffic via nodes outside the UK"
+      },
+      {
+        "title": "Millimeter wave technology drills 100 meters into granite",
+        "url": "https://www.thinkgeoenergy.com/quaise-energy-achieves-100-meters-of-drilling-using-millimeter-wave-technology/",
+        "text": "Fwiw, I'll share some surfing: Nice article on an earlier demo: https://newatlas.com/energy/quaise-energy-millimeter-wave-dr... ; linked from this (nice but lots lots of ads): https://newatlas.com/energy/quaise-energy-millimeter-wave-dr... . Company https://www.quaise.com/ on YT https://www.youtube.com/@quaise MS thesis (2024; browsable) on the vitrified wall, for that and its intro: https://www.p They made the laser drill from The Core IRL? Wow. That's interesting. Thats tx of 300ghz. Very interesting application of radio waves."
+      },
+      {
+        "title": "Vacation With An Artist – Mini-Apprenticeships with Artists in Their Studios",
+        "url": "https://vawaa.com/",
+        "text": "Was wondering and discussing with somebody yesterday why USA does not have a strong apprenticeship culture like Europe does. Interesting, I've been considering going the other direction, finances permitting, and having an artist-in-residence or student artist visit my ceramic studio for a few weeks or months in the summer. I feel like it's uncommon to be given access to a reasonable studio, materials, room and board, and a stipend. This looks awesome. I’m the ideal customer for this and am delighted it exists."
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "domain": "tech",
+    "items": [
+      {
+        "title": "Show HN: Tiny – An interpeted dynamic langauge with inline Go native functions",
+        "url": "https://github.com/confh/Tiny",
+        "text": "The author should call out size of binaries (compiled and generated), the interpreter as well since that's teh selling point. if it's tiny from memory requiremetns , shoudl also call out the same, potentially benchmarking against similar (luajit?). What is the motivation and use case in coding agents era for this project? Dont get me wrong, this question echoes in my head for some time now. Especially with supply chain attacks and open source libraries being entirely written by AI, whats my motivation to use open source libs? Previously it was time-saving, now this incentive vanish since its not me spending more time (but agent) What a great accomplishment! How did you manage to complete a JIT language in 2 months!?"
+      },
+      {
+        "title": "Bootimus – A Self-Contained PXE and HTTP Boot Server",
+        "url": "https://bootimus.com",
+        "text": "Last year I released my version of this: https://pxehost.com Pxehost is much less featureful than Bootimus, no dashboard, and only supports netboot.xyz. I am curious how Bootimus got udp broadcast to work via Docker on arm macOS. I could not figure that out and it’s why I released pxehost as a cross platform binary. We need a good ISO to set up new hosts to run firecracker VMs in k3s. That would b Has anyone else noticed how readily identifiable AI generated text is? This is a very cool project, and I suppose it's hard to know for sure, but everything about the site describing the project \"feels\" AI generated to me. I do not say this to detract from the value of the project or its very interesting nature, by the way. Just an orthogonal observation. Nice, although if you already are running your own DHCP and web server, it's very easy to add a TFTP server and configure everything to serve whatever you want. So it does feel a bit like reinventing the wheel to me. A PXE boot server has many uses. The project already mentions using it for tools like GParted, Memtest86+ and so on. Booting live OS or OS installers via netboot.xyz is also great. Bu"
+      },
+      {
+        "title": "The ability to regrow body parts is dormant in mammals, not lost",
+        "url": "https://www.sciencedaily.com/releases/2026/06/260617032207.htm",
+        "text": "Retina is a good example of this. Zebrafish can regrow damaged retina, but while mammals have the same stem cells (Muller glia), they dont repair the retina, but form scar tissue. There is a lot of research and I think they have managed to modify rat genome, so that their retina has showns some repair abilities. The problem is that it often causes tumors. I have other retina permanently damaged, a I’m surprised this does not mention humans can grow back the tips of their fingers (past the white part of cuticle) https://www.npr.org/sections/health-shots/2013/06/10/1903854... Supposed to be only kids but I’ve chopped off a few mm by accident it came back as an adult or I can’t tell the difference. Not a single mention of the work on limb regeneration by Professor Michael Levin's lab at Tufts? https://as.tufts.edu/biology/tufts-center-regenerative-and-d..."
+      },
+      {
+        "title": "Show HN: Ember, a native iOS Hacker News reader I built around accessibility",
+        "url": "https://github.com/DatanoiseTV/ember-hackernews",
+        "text": "I read HN on my phone every day and never really settled on a reader, so I wrote my own and finally tidied it up enough to put out there. It's plain SwiftUI with no third-party dependencies. A few things I spent the most time on: Comments are parsed and drawn as native text instead of being dumped into a web view. Links, italics, quotes and code blocks behave like the rest of the OS, text selection works, and threads collapse instantly. The whole comment tree comes back from the Algolia API in a single request, which felt a lot nicer than walking the Firebase API node by node. Accessibility. Nothing depends on color on its own, so points, read state and selection all carry a shape or an icon too. VoiceOver reads each story as one coherent element with proper actions, Dynamic Type and Reduce Motion are respected, and there's a color-blind mode. The first-run setup actually looks at your device's accessibility settings, switches on the matching options, and tells you what it changed instead of making you hunt for them. Then the usual things you'd expect: Top/New/Best/Ask/Show/Jobs, search, saved stories, read tracking, an in-app reader, light and dark, and a handful of accent colors. It only talks to the public HN APIs, there's no account and nothing is tracked. Source and screenshots are in the repo. I'd most like feedback on the comment rendering and the accessibility choices, since those were the parts I cared about getting right. Happy to answer anything about how it's put "
+      },
+      {
+        "title": "AMD will reinstate memory encryption on Ryzen 9000 CPUs via BIOS update in July",
+        "url": "https://www.tomshardware.com/pc-components/cpus/amd-will-reinstate-memory-encryption-on-ryzen-9000-cpus-through-a-bios-update-in-july-tsme-is-coming-back-after-valuable-community-feedback",
+        "text": "> TSME isn't a critical security feature for most consumer desktops, as it protects against attacks where the attacker needs physical access to the device. If you think it's hard to gain physical access to a consumer desktop, you're out of touch. Most desktops aren't locked inside a datacenter. Memory encryption is a valuable desktop (and laptop) security feature. People don’t like things being taken away, even if I don’t think many people are actually using this feature. I don’t even think its exposed in most BIOS’s I'm a little puzzled by the uproar given that all the oneline chatter seems to suggest nobody is using this. If this was AVX512 or something I could understand the give it back reaction..."
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "domain": "tech",
+    "items": [
+      {
+        "title": "White House delays US voting-machine vulnerability report",
+        "url": "https://www.reuters.com/world/white-house-delays-release-us-voting-machine-study-midterms-near-2026-06-19/",
+        "text": "The red haring is that voting is hacked or illegals are voting, etc etc etc. The -real- story is disenfranchising voters by making it hard for them or out-right steaming their votes in the courts. We don't have an election fraud issue in the us. We have an election legitimacy issue. Faith in elections and election integrity is incredibly important. Unsubstantiated claims of election fraud should be punished severely. Politicians who baselessly erode confidence in elections without providing timely evidence should be ineligible for political office at least and potentially tried for treason. I'd love to hear the steelman - what's the argument in favor of using a proprietary electronic system? There have been legit complaints about closed sourced voting systems for ~20 years and DEFCON has done a \"Voting Village\" for ~10 years demonstrating numerous issues, some of which were not addressed by the next elections. Transparency doesn't appear better either. Is it speed to tally? Cost? Eas"
+      },
+      {
+        "title": "Now You Don't: When Espionage Meets Magic",
+        "url": "https://www.politicshome.com/news/article/now-dont-espionage-meets-magic",
+        "text": "This article really buried the most interesting part: the shaping of public opinion by the home office in the UK following acts of terrorism. What the hell is that popover?"
+      },
+      {
+        "title": "Windows 11 New Media Player Uses 3.5x More RAM, Charges for Popular Video Codecs",
+        "url": "https://www.extremetech.com/computing/windows-11s-new-media-player-uses-35x-more-ram-charges-for-popular-video",
+        "text": "Removing HEVC support wasn't their choice but probably stems from the licensing pools increasing their prices [1]. Windows media player probably sees very little usage nowadays and probably even less for HEVC, when most content playback happens via streaming and browsers today. As for the RAM increase, well that's probably a consequence of the general trend of doing frontend engineering via JS/TS  I kinda have to hand it to Microsoft for dogfooding vibecoding with Copilot to such an extent. You can't say they encourage their customers to use a bad solution while doing something different in-house. > The modern Media Player is said to use around 377MB of RAM when idle, compared to roughly 103MB for the old player—about 3.5x as much memory while doing absolutely nothing. even 103MB sound like a lot for doing nothing"
+      },
+      {
+        "title": "Think of the children: How to force real ID for all internet traffic (2023)",
+        "url": "https://nochan.net/b/Internet-Crap/20230829-Think-Of-The-Children/",
+        "text": "What is the final defense? I suppose we create underground relay networks of radio networks within cities that allow for computers to connect directly to eachother, and from there we seed all our pirated content and discuss whatever the hell we'd like. Maybe we'd have to contend with low bandwidth when we connect outside our own city network, using larger wavelength radio to bounce off the ionosph To add to the list: KYC/AML-like regulations and practices (not necessarily financial) that shift the responsibility down the chain, outside the accountability zone, and result in preventive overly broad risk avoidance, self-censorship, and manipulation of your Overton window. See for example DMCA vs YouTube practices vs what actual channels choose to do to dodge both. Or algospeak. Or the PayPal  <meta name=\"RATING\" content=\"RTA-5042-1996-1400-1577-RTA\" /> I wonder why the rating code is so complex. Pornhub.com has this code enabled, but it also uses a simpler <meta name=\"rating\" content=\"adult\">. 4chan also uses the latter."
+      },
+      {
+        "title": "SUV buyers undeterred by warnings of risk to pedestrians",
+        "url": "https://www.theguardian.com/world/2026/jun/20/suv-risks-warnings-road-safety-buyers-uk-study",
+        "text": "yes we need more regulations Mr. Government. Why not use technology to advance robotics and self-driving when we can have more fines and scrutiny around the constituents. This is a fascinating study that shows the massive disconnect between our moral choices and our actual hehavior, showing how many people are willing to accept the risk of killing children in exchange for a car that makes them feel good, even if they have been explicitly informed of that risk."
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "domain": "tech",
+    "items": [
+      {
+        "title": "Web Browsers on PDAS",
+        "url": "https://vale.rocks/posts/pda-browsers",
+        "text": "We had about 10-15 years or so where the web wasn’t so complex and fast moving that a browser needed constant updates for things to work. Now browsers are more complex that entire operating systems and anything older than a few years just won’t work and publishers think that’s ok. I remember as late as 2008 verifying websites in Lynx (or elinks or links2) to ensure screen readers and low end devic I remember using Dillo on a Compaq iPaq with Linux installed. No Dillo screen shots, but plenty of information about apps for Linux on the iPaq 3765 here: https://www.frequal.com/ipaq/index.html The AlphaSmart dana had its own widescreen browser on PalmOS. Modern sites bring it to its knees, but it's a nicer experience than a smaller PDA screen when it works."
+      },
+      {
+        "title": "Early life adversity leaves a lasting molecular imprint across the body",
+        "url": "https://medicalxpress.com/news/2026-06-early-life-adversity-molecular-imprint.html",
+        "text": "Early life adversity leaves a lasting molecular imprint across the body"
+      },
+      {
+        "title": "How the Fifth Lateran Council Unlocked Financial Theory",
+        "url": "https://sebastiangarren.com/2026/06/17/lending-is-meritorious-and-should-be-praised-how-the-fifth-lateran-council-unlocked-financial-theory/",
+        "text": "How the Fifth Lateran Council Unlocked Financial Theory"
+      },
+      {
+        "title": "LLMs Are Complicated Now",
+        "url": "https://ianbarber.blog/2026/06/19/llms-are-complicated-now/",
+        "text": "For someone like me who's never done any hands-on work in ML, the blog is really hard to understand. Whoosh, over my head. But, I think the underlying problem is that we don't understand how this sh*t works. So, it's just an empirical, iterative mess. Like physics in the the years shortly before relativity and quantum mechanics. It's the bitter-lesson to feature-engineering lifecycle. When a technique or technology is new people are making massive gains by just applying it to some use case, or gathering more data for training, or giving it more resources. As time goes on those \"bitter lesson\" gains start to hit the shallow part of the logistic curve and companies have to start investing more and more effort into engineeri - with all due respect, from a ux perspective, could you kindly add a page where i can see just the titles of all your blog posts - https://ianbarber.blog/blogroll - https://ianbarber.blog/archive - https://ianbarber.blog/blog - https://ianbarber.blog/posts - none of the above links work - i really dont want to scroll 200 pages just to see what your blog articles are"
+      },
+      {
+        "title": "Coding a Brick Tower [video]",
+        "url": "https://www.youtube.com/watch?v=DAMiS2PGTEE",
+        "text": "https://www.shadertoy.com/view/33GyRV It runs at 10fps on my gen12 intel at fullscreen. These techniques are cute but limited."
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "domain": "tech",
+    "items": [
+      {
+        "title": "Show HN: Agentic coding workflows built on Git worktrees and task evidence",
+        "url": "https://github.com/alex-reysa/glueRun-go",
+        "text": "[dead]"
+      },
+      {
+        "title": "The discovery that changed how scientists think about memory",
+        "url": "https://www.ibm.com/think/news/discovery-changed-how-scientists-think-about-memory-kavli-prize",
+        "text": "> Every memory begins with tiny changes inside the brain Maybe. But the brain is not the only place where memory is stored. Flat worms remember things (and skills!) after their head has been cut off and they regrew it: https://www.smithsonianmag.com/science-nature/these-decapita... This discovery fully validates the organic system side of Peter Putnam's theory on induction, the Neuro Conditioned Reflex Principle, that requires changing state at synapses over time to select the nested Relative Dominance feedback winner in a given Conditioned Reflex feedback loop. Its quite incredible that the functionality of induction proposed by Putnam in 1963 has been consistently validate I think the most interesting thing is that it took 15 years for people to apparently take this seriously. And another 40 to recognize its impact. The original paper[1] was from 1982... Having been in software development for 45 years, I find this crazy. Maybe it's because in our world, it often takes a month for something to spread from \"interesting\" to the new technology of the day, or the new wa"
+      },
+      {
+        "title": "Human Judgment as a Specification",
+        "url": "https://blog.brownplt.org/2026/06/09/pick.html",
+        "text": "> Telling people “you must read all the code generated by an LLM” is definitely meaningful—but it is not at all moderate (so most people won’t do it). I am honestly heartbroken to live in a world where reading the code is seen as an unreasonable ask by either students or by professional working programmers. > Telling people “you must read all the code generated by an LLM” is definitely meaningful—but it is not at all moderate (so most people won’t do it) But they should! The code is the best source of truth on what the software is doing after all. Instead of giving up on that, we should make it easier to read generated code, e.g. by generating less code in a higher level language. On the flip side, f this is the type of thing you need to build a foundation sturdy enough to let you operate higher up the stack and ratchet to design-by-metaphor and then design-by-philosophy. those design skills are taught in humanities departments, not engineering departments, so this is a weird feeling place for those of us that wandered over from a technical field."
+      },
+      {
+        "title": "Where to Find the Colors Your Screen Can't Show You",
+        "url": "https://moultano.wordpress.com/2026/06/19/where-to-find-the-colors-your-screen-cant-show-you/",
+        "text": "While it is true that some saturated blue-green colors will never be reproducible with only 3 primary colors, the CIE 1931 chromaticity diagram used in TFA overemphasizes their importance, because human vision cannot distinguish many colors in that area of the diagram. In reality, the greatest defect of the sRGB color space, which is still too frequently the default color space, is that it is not  I took up acrylics painting a few years back and I've been surprised by how much is lost in photos and videos. The two colors with which I've noticed this the most are ultramarine blue and prussian blue. I don't think it's just the color though, part of it comes down to how light is reflected off the painting and where you're standing, as well as the texture and the brush strokes. I have a few pai What I missed in the article: the curves of the three “cone kinds” overlap. What if you could stimulate kinds of cones individually to see entirely new colors? Some people shoot layers at them into eyes. But you can also try this website: https://dynomight.net/colors/ (previously on HN but search fails me)."
+      },
+      {
+        "title": "Dirty Little Zine – a tool for making an 8 page printable Zine",
+        "url": "https://dirtylittlezine.com/",
+        "text": "I didn't make this, but came across it and though it felt like the kind of thing HN would appreciate"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "domain": "tech",
+    "items": [
+      {
+        "title": "Surprising economics of load-balanced systems",
+        "url": "https://brooker.co.za/blog/2020/08/06/erlang.html",
+        "text": "the article offers a simplified world model: Poisson arrivals and infinite queue, which is fine as a math model. In the real world however, the bursts can be correlated, due to factors like timeouts/retries, thundering herd, correlated bursts. so the real economics of load-balanced system is a simple reliability story: being able to reasonably serve the peak traffic, which leads to over-provisioni A dead comment says: > Of course, this assumes independent events. World Cup, super bowls, etc break these assumptions. Yes, this is very true. The model here works for Poisson arrivals and exponential service time (the M/M), which are poor approximations of real-world traffic patterns (which tend to be non-stationary and non-ergodic, and include substantial seasonality). However, the frequency of What's conspicuously missing is the plot of performance when you do have a well tuned queue in front of the service. Yes, having a queue becomes less important the more backend servers you have, but here even with 10 servers the plot shows your latency remains >25% worse than it would be with a queue. Also missing is discussion of how the variance in processing times affects you when you rely on l"
+      },
+      {
+        "title": "From PGP to Mythos: a brief history of export controls that didn't stop anyone",
+        "url": "https://techcrunch.com/2026/06/19/encryption-spyware-and-now-mythos-history-shows-why-cyber-export-control-doesnt-work/",
+        "text": "It's a very brief history: it consists of three examples, only one of which isn't in the title. And the middle one is arguably a success story because the government did stop a bunch of spyware vendors it particularly disliked. That they turn a blind eye to some others is not really a policy failure, it's a deliberate political choice. The obvious difference between PGP and Mythos is that Mythos i > Something went wrong. Disable your adblocker on TechCrunch No, that actually means something went well - my adblocker saved me from being blasted by distracting, deceitful, dangerous content. Pro tip: reader mode bypasses this aggressive “go away” banner. There's no effective way of enforcing export controls on local software like PGP etc. Whatever they say someone will leak it. It is possible to shutdown access to hosted services, as happened with Fable, but it can't really be done selectively. The US government wanted to allow it for US nationals only but Anthropic couldn't do that and so shut it down for everyone. Even if they did tie Claude acc"
+      },
+      {
+        "title": "Mencius (2016)",
+        "url": "https://scholarworks.iu.edu/iuswrrest/api/core/bitstreams/265d73a0-6bfa-45df-92ff-4e7d3f8be4b1/content",
+        "text": "Relevant: When I hear biased speech, I can tell what has obscured the man’s understanding. When I hear excessive speech, I can tell what trap the man has fallen into. When I hear deviant speech, I can tell where the man has strayed. When I hear evasive speech, I can tell at what point the man has exhausted his reasons. When these defects are born in the mind they bring harm to self-governance, and"
+      },
+      {
+        "title": "Hyundai buys Boston Dynamics",
+        "url": "https://startupfortune.com/hyundai-takes-full-control-of-boston-dynamics-as-softbank-exits-for-325-million/",
+        "text": "Back in December 2020, Hyundai purchased an 80% controlling interest in Boston Dynamics from SoftBank for $880 million, part of a transaction that valued the robotics company at $1.1 billion. That agreement included a put option allowing SoftBank to sell its remaining stake to Hyundai at a later date. SoftBank has now exercised that option. I don't understand why they would implement humanoid robots instead of purpose-built robots. The human form is not the most optimal way to do most tasks, especially as it relates to manufacturing. Robots don't need to look like humans, they need to be useful . Seems like putting in an awful lot of extra unnecessary work to end up with a worse result. I don't think this is solely tied to car manufacturing automation. Even though Hyundai Motor Group is acquiring them, I would imagine they'd be well-positioned to commercialize general-purpose robotics and not just for car manufacturing, if Tesla is anything to go by. I do think this might be tied to South Korea's demographics, by 2040 the working-age population is projected to decline 25% from 20"
+      },
+      {
+        "title": "The Cold War's Accidental Whale Observatory",
+        "url": "https://thereader.mitpress.mit.edu/the-cold-wars-accidental-whale-observatory/",
+        "text": "The author included, near the end, a paragraph about me and my best friend the sonar operator who taught me a lot of what I know about cetacean communication in the 1970s. He was hunting soviet subs in 1962 and he saved us from a nuclear war during the October Missile Crisis because he had detected a sub that the Russians were thinking was not detectable. My friend had also conducted experimental  The existence of SOSUS wasn't all upside for whale data. Startup goes to patent a hydrophone improvement for marine research. Is told it's already secretly patented, and being classified, they can't make them - thank you for playing, good bye. If this article is interesting to you I highly recommend War of the Whales . It is an interesting look at Cold war science+politics and the environment. A decent part of the book is about SOSUS. https://warofthewhales.com/"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "domain": "tech",
+    "items": [
+      {
+        "title": "Computed goto for efficient dispatch tables (2012)",
+        "url": "https://eli.thegreenplace.net/2012/07/12/computed-goto-for-efficient-dispatch-tables",
+        "text": "You can probably eliminate the switch bounds check by making the default case execute __builtin_unreachable(). The switch version is safe for non-conforming opcodes where the computed goto version invokes UB. I understood up to the comparison operations in this article, but I'm having trouble understanding branch prediction even after reading it. It seems like they used branch prediction optimization... Sometimes when I read articles like this, I start to question whether I can really call myself a programmer All well and good provided your opcodes are sequential/dense"
+      },
+      {
+        "title": "A 1969 camera operators' strike created Upstairs Downstairs multiverse",
+        "url": "https://ironicsans.ghost.io/the-color-strike/",
+        "text": "Reminds me of the alternate, feature-length version of the Twin Peaks pilot, created in case the series was not picked up, in which they continue the storyline set up in the first hour, and resolve the murder mystery by the end. Widely available on home video formats. (Do NOT watch this version if you intend to watch the entire series!) In similar spirit, there was an old US TV show that was popular in Bulgaria. It was about some typical US family living with the grandad (father's side). So grandad gets punishes all the times for all the silly things he does, and his punishment involves him getting \"pork\" instead of \"beef\"... Well that \"punishment\" does not work in Bulgaria (back 20+ years ago) - \"pork\" was always better back the The article also raises an interesting question. My understanding is the big difference in North American and British color TV is that NTSC was engineered to be backwards compatible with existing black and white broadcasting standards, this is the source of many of it's sins. While the British system was able to both learn from ntsc's problems and make a cleaner break from black and white. I guess"
+      },
+      {
+        "title": "'Buy less' campaigns don't work",
+        "url": "https://www.lse.ac.uk/buy-less-campaigns-dont-work",
+        "text": "I beg to differ. Retailers pay an obsessive amount of attention to shoppers’ habits. The best thing everyone can do when prices are too high people high is to simply stop buying. Retailers notice immediately."
+      },
+      {
+        "title": "Show HN: TLA+ Process Studio",
+        "url": "https://tlaplus-process-studio.com/?example=meeting-lifecycle",
+        "text": "Disclaimer: This was made with LLMs. I made this tool to help understand large business processes that can be modelled as a single state machine. The core loop of this is to enable to walk stakeholders through discussing each step, adding comments, and reiterating with an LLM of their choice to generate the TLA+ syntax on the left. Users can click through the green state nodes to see how things work visually. You can see some sample state machines in the dropdown in the top left. The power would come from getting folks on the same page of the business process, so engineers can think about how best to automate/modernize the system once they get all of the context. Additionally, once you have a single canonical model of the process, you could in theory send into a dark factory to produce the software as quickly as possible, but now we can allocate more time in the entire software lifecycle at the design and alignment before coding now that coding is faster. Additional work could be done using this book for guidance, Workflow Modeling: Tools for Process Improvement and Application Development, https://www.amazon.com/Workflow-Modeling-Improvement-Applica... MIT licensed repo: https://github.com/RCSnyder/tlaplus-process-studio Let me know what you think! Thanks!"
+      },
+      {
+        "title": "Ubisoft co-founder Claude Guillemot has died in a plane crash",
+        "url": "https://www.reuters.com/world/ubisofts-co-founder-claude-guillemot-dies-plane-crash-2026-06-20/",
+        "text": "https://www.thegamer.com/ubisoft-co-founder-claude-guillemot..."
+      }
+    ]
+  }
+]
