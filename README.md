@@ -2,7 +2,7 @@
 
 A small study: **does role decomposition across lightweight open-source models
 (SLMs) recover most of a large LLM's newsletter quality — and at what cost?**
-Newsletter generation is the testbed. See `PROJECT_PLAN.md` for the full design.
+Newsletter generation is the testbed.
 
 ## What it does
 
@@ -95,8 +95,6 @@ python demo/showcase.py --export   # write results/comparison.md — every newsl
                                    #   4 systems side by side (overview / appendix)
 python demo/showcase.py --slow     # reveal text slowly (nicer for screen recording)
 ```
-
-See `demo/SCRIPT.md` for the demo-video narration.
 
 ## Notes
 
